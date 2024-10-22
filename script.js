@@ -50,5 +50,3 @@ const filterwrapper = e => {
 
 // add click event listener to each button
 filterButtons.forEach(button => button.addEventListener("click" , filterwrapper))
-
-

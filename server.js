@@ -2,10 +2,10 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const User = require('./models/user'); // Ensure you have this model created
+const User = require('./models/user'); 
 
 require('dotenv').config(); // Load environment variables
 const app = express();
@@ -15,8 +15,7 @@ const port = 5000;
 app.use(express.json());
 app.use(cors());
 
-// Your secret key from environment variables
-const secretKey = process.env.JWT_SECRET || 'default_secret'; // Use environment variable for security
+const secretKey = 'anshi' ; // Use environment variable for security
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { 
@@ -36,16 +35,10 @@ app.post('/register', async (req, res) => {
     const userExists = await User.findOne({ username });
     if (userExists) return res.status(400).json({ msg: 'User already exists' });
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    console.log('Hashed Password:', hashedPassword); // Log the hashed password
-
     // Create a new user
     const newUser = new User({
         username,
-        password: hashedPassword
+        password: password
     });
 
     try {
@@ -64,7 +57,7 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    console.log(`Login attempt with username: ${username} and password: ${password}`);
+    console.log(Login attempt with username: ${username} and password: ${password});
 
     // Find the user by username
     try {
@@ -73,21 +66,21 @@ app.post('/login', async (req, res) => {
         console.log('Entered Password:', password);
 
         if (!user) {
-            console.log("User not found");
-            return res.status(400).json({ msg: 'User not found' });
+            console.log("Ivalid user or password");
+            return res.status(401).json({ msg: 'Ivalid user or password' });
         }
 
-        console.log('Stored Hashed Password:', user.password); // Log the stored hashed password
+        console.log('Stored Password:', user.password); // Log the stored password
         
         // Check if password matches
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             console.log("Password does not match");
-            return res.status(400).json({ msg: 'Invalid credentials' });
+            return res.status(401).json({ msg: 'Invalid credentials' });
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, 'anshi', { expiresIn: '1h' });
 
         res.json({
             token,
@@ -98,7 +91,7 @@ app.post('/login', async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ msg: 'Server error' });
+        res.status(500).json({ msg: 'Server error' });
     }
 });
 
@@ -123,5 +116,4 @@ function verifyToken(req, res, next) {
 }
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => console.log(Server running on port ${port}));
