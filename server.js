@@ -57,7 +57,7 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    console.log(Login attempt with username: ${username} and password: ${password});
+    console.log(`Login attempt with username: ${username} and password: ${password}`);
 
     // Find the user by username
     try {
@@ -116,4 +116,6 @@ function verifyToken(req, res, next) {
 }
 
 // Start server
-app.listen(port, () => console.log(Server running on port ${port}));
+app.listen(port, () =>{ 
+    console.log(`Server running on port ${port}`)
+});

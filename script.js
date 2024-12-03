@@ -1,3 +1,120 @@
+const pages = {
+
+    // divide caterories here and 
+    "Aerospace": "aerospace.html",
+
+   "Maths": "math.html",
+   "Higher Engineering Mathematics":'math.html',
+   "Advanced Engineering Mathematics":"math.html",
+   "Mathematical Methods in the Physical Sciences":"math.html",
+   "Discrete Mathematics and its Applications":"math.html",
+   "Numerical Methods for Engineers":"math.html",
+   "Algebra": "math.html",
+
+    "physics": "physics.html"
+};
+
+const secondaryDataset = {
+    "Car": "This is the car page content.",
+    // Add more items as needed
+};
+
+document.getElementById('search-box').addEventListener('input', function() {
+    let input = this.value.toLowerCase();
+    if (input) {
+        let suggestions = Object.keys(pages).filter(subject => subject.toLowerCase().startsWith(input)).slice(0, 3);
+        suggestions = suggestions.concat(Object.keys(secondaryDataset).filter(subject => subject.toLowerCase().startsWith(input)).slice(0, 3));
+        console.log('Suggestions:', suggestions);  // Log suggestions to console
+        showSuggestions(suggestions);
+    } else {
+        hideSuggestions();
+    }
+});
+
+document.getElementById('search-box').addEventListener('focus', function() {
+    let input = this.value.toLowerCase();
+    if (input) {
+        let suggestions = Object.keys(pages).filter(subject => subject.toLowerCase().startsWith(input)).slice(0, 3);
+        suggestions = suggestions.concat(Object.keys(secondaryDataset).filter(subject => subject.toLowerCase().startsWith(input)).slice(0, 3));
+        console.log('Suggestions on focus:', suggestions);  // Log suggestions to console
+        showSuggestions(suggestions);
+    }
+});
+
+document.getElementById('search-box').addEventListener('blur', function() {
+    setTimeout(hideSuggestions, 100);  // Delay hiding to allow item click
+});
+
+function showSuggestions(suggestions) {
+    let suggestionsContainer = document.getElementById('suggestions');
+    let searchBox = document.getElementById('search-box');
+    let searchBoxRect = searchBox.getBoundingClientRect();
+    
+    suggestionsContainer.innerHTML = '';
+    suggestionsContainer.style.top = `${searchBoxRect.bottom}px`;
+    suggestionsContainer.style.left = `${searchBoxRect.left}px`;
+    suggestionsContainer.style.width = `${searchBoxRect.width}px`;
+
+    if (suggestions.length > 0) {
+        let list = document.createElement('ul');
+        list.classList.add('bg-white', 'border', 'border-gray-300', 'rounded', 'shadow-lg', 'z-10', 'overflow-hidden');
+        suggestions.forEach(suggestion => {
+            let item = document.createElement('li');
+            item.classList.add('block', 'px-4', 'py-3', 'hover:bg-blue-100', 'cursor-pointer', 'text-gray-800', 'hover:text-blue-700');
+
+            let link = document.createElement('a');
+            link.textContent = suggestion;
+            link.href = pages[suggestion] ? pages[suggestion] : '#';
+            
+            if (!pages[suggestion]) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    createDynamicPage(suggestion, secondaryDataset[suggestion]);
+                });
+            }
+
+            item.appendChild(link);
+            item.addEventListener('click', function() {
+                if (pages[suggestion]) {
+                    window.location.href = pages[suggestion];
+                } else {
+                    createDynamicPage(suggestion, secondaryDataset[suggestion]);
+                }
+                hideSuggestions();
+            });
+
+            list.appendChild(item);
+        });
+        suggestionsContainer.appendChild(list);
+        suggestionsContainer.classList.remove('hidden');
+    } else {
+        hideSuggestions();
+    }
+}
+
+function hideSuggestions() {
+    let suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.classList.add('hidden');
+    console.log('Hiding suggestions from DOM');
+}
+
+function createDynamicPage(title, content) {
+    let dynamicPageContainer = document.getElementById('dynamic-page-container');
+    
+    if (!dynamicPageContainer) {
+        dynamicPageContainer = document.createElement('div');
+        dynamicPageContainer.id = 'dynamic-page-container';
+        dynamicPageContainer.classList.add('p-4', 'm-4', 'border', 'border-gray-300', 'rounded', 'shadow-lg');
+        document.body.appendChild(dynamicPageContainer);
+    }
+
+    dynamicPageContainer.innerHTML = `<h1 class="text-2xl font-bold mb-4">${title}</h1><p>${content}</p>`;
+    window.location.hash = 'dynamic-page-container';
+}
+
+/////////////////////////////////
+
+
 searchForm = document.querySelector('.search-form');
 
 document.querySelector('#search-btn').onclick = () =>{
