@@ -24,7 +24,7 @@ const pages = {
     "Biotechnology for Beginners": "bioeng.html",
     "Fundamentals of Bioengineering": "bioeng.html",
 
-    "Inorganic Chemistry ": "chem.html",
+    "Inorganic Chemistry ": "chem.html", "Pearson ": "chem.html", 
     "Physical Chemistry ": "chem.html",
     "Organic Chemistry  ": "chem.html",
     "Chemistry: The Central Science  ": "chem.html",
