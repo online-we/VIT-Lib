@@ -2,6 +2,9 @@ const pages = {
 
     // divide caterories here and 
     "Aerospace": "aerospace.html",
+    "Introduction to Flight": "aerospace.html",
+    "Aircraft Performance & Design": "aerospace.html",
+    "Fundamentals of Aerodynamics": "aerospace.html",
 
    "Maths": "math.html",
    "Higher Engineering Mathematics":'math.html',
@@ -11,7 +14,21 @@ const pages = {
    "Numerical Methods for Engineers":"math.html",
    "Algebra": "math.html",
 
-    "physics": "physics.html"
+    "physics": "physics.html",
+    
+    "Pattern Recognition and Machine Learning": "ml.html",
+    "Machine Learning: A Probabilistic Perspective": "ml.html",
+    "Deep Learning": "ml.html",
+
+    "Introduction to Biomedical Engineering": "bioeng.html",
+    "Biotechnology for Beginners": "bioeng.html",
+    "Fundamentals of Bioengineering": "bioeng.html",
+
+    "Inorganic Chemistry ": "chem.html",
+    "Physical Chemistry ": "chem.html",
+    "Organic Chemistry  ": "chem.html",
+    "Chemistry: The Central Science  ": "chem.html",
+    
     
 };
 
