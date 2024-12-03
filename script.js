@@ -12,6 +12,7 @@ const pages = {
    "Algebra": "math.html",
 
     "physics": "physics.html"
+    
 };
 
 const secondaryDataset = {
